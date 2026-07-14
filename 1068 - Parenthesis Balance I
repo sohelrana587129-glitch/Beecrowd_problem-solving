@@ -1,0 +1,35 @@
+//1068 - Parenthesis Balance I
+#include <stdio.h>
+
+int main()
+{   
+    char a[1001];
+  while(scanf("%s", a) != EOF){
+      int sum = 0;
+      int correct = 1; 
+  
+    
+   for(int i = 0; a[i] != '\0'; i++){
+        if(a[i] == '(' ){
+            sum++;
+        }
+        else if( a[i] == ')'){
+            sum--;
+            if(sum < 0){
+                break;
+            }
+        }
+    }
+    
+    if(sum == 0){
+        printf("correct\n");
+    }
+    else{
+        printf("incorrect\n");
+    }
+  }
+    
+    
+
+    return 0;
+}
