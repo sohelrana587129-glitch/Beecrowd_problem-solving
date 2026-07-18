@@ -1,0 +1,100 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define INF 1000000
+
+// Graph adjacency list
+int graph[50][50];
+int degree[50];
+int V;
+
+// BFS to find shortest path between two nodes
+int bfs(int start, int end) {
+    int visited[50], dist[50];
+    memset(visited, 0, sizeof(visited));
+    for (int i = 0; i < V; i++) dist[i] = INF;
+
+    int queue[100], front = 0, rear = 0;
+    queue[rear++] = start;
+    visited[start] = 1;
+    dist[start] = 0;
+
+    while (front < rear) {
+        int node = queue[front++];
+        if (node == end) return dist[node];
+        for (int i = 0; i < V; i++) {
+            if (graph[node][i] && !visited[i]) {
+                visited[i] = 1;
+                dist[i] = dist[node] + 1;
+                queue[rear++] = i;
+            }
+        }
+    }
+    return INF;
+}
+
+// Recursive pairing of odd vertices
+int min_extra;
+void pair_cost(int odds[], int len, int current_cost) {
+    if (len == 0) {
+        if (current_cost < min_extra) min_extra = current_cost;
+        return;
+    }
+    int u = odds[0];
+    for (int i = 1; i < len; i++) {
+        int v = odds[i];
+        int dist = bfs(u, v);
+        int new_odds[50], idx = 0;
+        for (int j = 1; j < len; j++) {
+            if (j != i) new_odds[idx++] = odds[j];
+        }
+        pair_cost(new_odds, idx, current_cost + dist);
+    }
+}
+
+int chinese_postman(int start, int edges[][2], int A) {
+    memset(graph, 0, sizeof(graph));
+    memset(degree, 0, sizeof(degree));
+
+    // Build graph
+    for (int i = 0; i < A; i++) {
+        int u = edges[i][0], v = edges[i][1];
+        graph[u][v] = graph[v][u] = 1;
+        degree[u]++; degree[v]++;
+    }
+
+    // Collect odd vertices
+    int odds[50], odd_count = 0;
+    for (int i = 0; i < V; i++) {
+        if (degree[i] % 2 == 1) odds[odd_count++] = i;
+    }
+
+    // Base movements = number of edges
+    int movements = A;
+
+    if (odd_count == 0) return movements;
+
+    // Pair odd vertices optimally
+    min_extra = INF;
+    pair_cost(odds, odd_count, 0);
+
+    return movements + min_extra;
+}
+
+int main() {
+    int T;
+    scanf("%d", &T);
+    while (T--) {
+        int start;
+        scanf("%d", &start);
+        int A;
+        scanf("%d %d", &V, &A);
+        int edges[100][2];
+        for (int i = 0; i < A; i++) {
+            scanf("%d %d", &edges[i][0], &edges[i][1]);
+        }
+        printf("%d\n", chinese_postman(start, edges, A));
+    }
+    return 0;
+}
