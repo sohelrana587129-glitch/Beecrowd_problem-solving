@@ -1,0 +1,67 @@
+#include <stdio.h>
+
+int main()
+{
+    int a[100],  i, j, key;
+    char n[100];
+    int s = 0;
+    printf("Input:\n");
+    scanf("%s", n);
+    for(i = 0; n[i] != '\0'; i++){
+       a[s++] = n[i] - '0';
+    }
+    printf("Last digit: ");
+    int c;
+    scanf("%d", &c);
+    if(c % 2 == 0){
+
+    printf("Original Array:\n");
+    for(i = 0; i < s; i++){
+        printf("%d ", a[i]);
+    }
+
+    for(i = 1; i < s; i++)
+    {
+        key = a[i];
+        j = i - 1;
+        while(j >= 0 && a[j] > key)
+        {
+            a[j + 1] = a[j];
+            j--;
+        }
+        a[j + 1] = key;
+    }
+
+    printf("\nSorted array(ascending):\n");
+    for(i = 0; i < s; i++){
+        printf("%d ", a[i]);
+    }
+    }
+
+    if(c % 2 != 0){
+
+    printf("Original Array:\n");
+    for(i = 0; i < s; i++){
+        printf("%d ", a[i]);
+    }
+
+    for(i = 1; i < s; i++)
+    {
+        key = a[i];
+        j = i - 1;
+        while(j >= 0 && a[j] < key)
+        {
+            a[j + 1] = a[j];
+            j--;
+        }
+        a[j + 1] = key;
+    }
+
+    printf("\nSorted array(Descending):\n");
+    for(i = 0; i < s; i++){
+        printf("%d ", a[i]);
+    }
+    }
+    return 0;
+}
+
