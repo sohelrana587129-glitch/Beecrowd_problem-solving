@@ -1,0 +1,95 @@
+//Number of element
+//Array Element
+//User choice
+//1. Brute Force.
+//2. Divide and conquer
+//output:Display the select element,,sort array.
+#include<stdio.h>
+
+int main(){
+int n;
+printf("n = ");
+scanf("%d", &n);
+int a[n];
+int s;
+
+printf("Array = ");
+for(int i = 0;  i < n; i++){
+    scanf("%d", &a[i]);
+}
+printf("Choice = ");
+scanf("%d", &s);
+if(s == 1){
+    printf("Algorithm Used: Brute Force\n");
+
+
+    int i, j, min, temp;
+    for(i = 0; i < n - 1; i++)
+    {
+        min = i;
+        for(j = i + 1; j < n; j++)
+        {
+            if(a[j] < a[min])
+                min = j;
+        }
+
+        if(min != i)
+        {
+            temp = a[i];
+            a[i] = a[min];
+            a[min] = temp;
+        }
+    }
+
+    printf("Sorted list in ascending order:\n");
+    for(i = 0; i < n; i++)
+        printf("%d ", a[i]);
+
+}
+// Merge two sorted parts
+void merge(int a[], int left, int mid, int right) {
+    int temp[100]; // temporary array
+    int i = left;     // start of left part
+    int j = mid + 1;  // start of right part
+    int k = 0;        // index for temp
+
+    // Compare and pick smaller
+    while (i <= mid && j <= right) {
+        if (a[i] < a[j])
+            temp[k++] = a[i++]; // pick from left
+        else
+            temp[k++] = a[j++]; // pick from right
+    }
+
+    // Copy remaining left
+    while (i <= mid) temp[k++] = a[i++];
+    // Copy remaining right
+    while (j <= right) temp[k++] = a[j++];
+
+    // Copy temp back to arr
+    for (i = left, k = 0; i <= right; i++, k++)
+        a[i] = temp[k]; // final sorted values
+}
+
+void mergeSort(int arr[], int left, int right) {
+    if (left < right) {
+        int mid = (left + right) / 2;
+        mergeSort(a, left, mid);      // sort left part
+        mergeSort(a, mid + 1, right); // sort right part
+        merge(a, left, mid, right);   // merge them
+    }
+}
+
+
+if(s == 2){
+
+printf("Algorithm Used: Divide and Conquer\n");
+
+ mergeSort(a, 0, n - 1);
+    printf("Sorted Array: ");
+    for (int i = 0; i < n; i++)
+        printf("%d ", a[i]);
+    return 0;
+}
+return 0;
+}
