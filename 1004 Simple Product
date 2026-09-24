@@ -1,0 +1,9 @@
+#include <stdio.h>
+ int main() {
+ int n1,n2,multiplication;
+ scanf("%d", &n1);
+ scanf("%d", &n2);
+ multiplication= n1*n2;
+ printf("PROD = %d\n", multiplication);
+ return 0;
+}
